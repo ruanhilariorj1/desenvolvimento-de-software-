@@ -1,0 +1,55 @@
+<h1>Lista de Alunos</h1>
+
+<a href="{% url 'cadastrar_aluno' %}">Novo aluno</a>
+
+<hr>
+
+<form method="get">
+    <input
+        type="text"
+        name="busca"
+        placeholder="Buscar por nome"
+        value="{{ busca|default:'' }}"
+    >
+
+    <select name="ordem">
+        <option value="nome_az" {% if ordem == 'nome_az' or not ordem %}selected{% endif %}>
+            Nome A-Z
+        </option>
+        <option value="nome_za" {% if ordem == 'nome_za' %}selected{% endif %}>
+            Nome Z-A
+        </option>
+        <option value="nascimento" {% if ordem == 'nascimento' %}selected{% endif %}>
+            Data de Nascimento
+        </option>
+    </select>
+
+    <button type="submit">Aplicar</button>
+</form>
+
+<a href="{% url 'listar_alunos' %}">Limpar filtros</a>
+
+<hr>
+
+{% for aluno in alunos %}
+    <h2>{{ aluno.nome_aluno }}</h2>
+
+    <p>CPF: {{ aluno.cpf }}</p>
+    <p>Data de Nascimento: {{ aluno.data_nascimento }}</p>
+    <p>Telefone: {{ aluno.telefone_aluno }}</p>
+    <p>E-mail: {{ aluno.e_mail }}</p>
+    <p>Endereço: {{ aluno.endereco_aluno }}</p>
+
+    {% if aluno.restricoes %}
+        <p>Restrições médicas: {{ aluno.restricoes }}</p>
+    {% endif %}
+
+    <a href="{% url 'detalhe_aluno' aluno.cpf %}">Ver detalhes</a>
+    <a href="{% url 'editar_aluno' aluno.cpf %}">Editar</a>
+    <a href="{% url 'excluir_aluno' aluno.cpf %}">Excluir</a>
+
+    <hr>
+{% empty %}
+    <p>Nenhum aluno encontrado.</p>
+{% endfor %}
+
