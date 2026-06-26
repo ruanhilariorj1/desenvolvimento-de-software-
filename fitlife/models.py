@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
- 
+from django.contrib.auth.models import User, Group
  
 # =============================================================================
 # BLOCO 1 — ESTRUTURA BASE: Modalidade e Plano
@@ -256,7 +256,12 @@ class Aluno(models.Model):
     telefone_aluno  = models.CharField(max_length=20, verbose_name='Telefone')
     e_mail          = models.EmailField(max_length=150, unique=True, verbose_name='E-mail')
     restricoes      = models.TextField(blank=True, null=True, verbose_name='Restrições Médicas')
- 
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     class Meta:
         db_table            = 'aluno'
         ordering            = ['nome_aluno']
@@ -269,7 +274,7 @@ class Aluno(models.Model):
     def contrato_ativo(self):
         """Retorna o contrato ativo do aluno, se houver."""
         return self.contratos.filter(status='Ativo').first()
- 
+
  
 # =============================================================================
 # BLOCO 4 — CONTRATO, PAGAMENTO E FATURA
