@@ -1,12 +1,53 @@
-<h1>Confirmar Exclusão</h1>
+{% extends 'fitlife/base.html' %}
 
-<p>Tem certeza que deseja excluir
-   "{{ aluno.nome_aluno }}"?</p>
+{% block title %}Excluir Aluno — FitLife{% endblock %}
+{% block topbar_title %}Excluir Aluno{% endblock %}
+{% block nav_alunos %}active{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Sim, excluir</button>
-</form>
+{% block content %}
 
-<br>
-<a href="{% url 'listar_alunos' %}">Cancelar</a>
+<div class="page-header">
+    <h1 class="page-title">Confirmar Exclusão</h1>
+    <a href="{% url 'listar_alunos' %}" class="btn-secondary">
+        <i class="ti ti-arrow-left"></i> Voltar
+    </a>
+</div>
+
+<div class="card" style="max-width: 480px;">
+
+    <!-- Ícone de alerta -->
+    <div style="text-align: center; margin-bottom: 1.4rem;">
+        <div style="
+            width: 64px; height: 64px; border-radius: 50%;
+            background: var(--accent-soft); color: #c62848;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 0.85rem; font-size: 30px;
+        ">
+            <i class="ti ti-trash"></i>
+        </div>
+        <h2 style="font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 0.45rem;">
+            Excluir aluno?
+        </h2>
+        <p style="font-size: 13.5px; color: var(--ink-2); line-height: 1.5;">
+            Tem certeza que deseja excluir
+            <strong style="color: var(--ink);">"{{ aluno.nome_aluno }}"</strong>?
+        </p>
+        <p style="font-size: 12px; color: var(--ink-3); margin-top: 6px;">
+            Esta ação não poderá ser desfeita.
+        </p>
+    </div>
+
+    <!-- Botões -->
+    <form method="post">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn-danger-solid">
+                <i class="ti ti-trash"></i> Sim, excluir
+            </button>
+            <a href="{% url 'listar_alunos' %}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
