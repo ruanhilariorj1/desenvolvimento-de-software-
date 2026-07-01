@@ -1,0 +1,309 @@
+{% extends 'fitlife/base.html' %}
+
+{% block title %}Login — FitLife{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — FitLife</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: #f0f0f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-wrapper {
+            display: flex;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            width: 780px;
+            min-height: 480px;
+        }
+
+        /* ── PAINEL ESQUERDO ── */
+        .login-left {
+            background: #1a1a2e;
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+        }
+
+        .login-logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: #e94560;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .login-logo span { color: #fff; }
+
+        .login-tagline {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2.5rem;
+        }
+
+        .grupo-label {
+            font-size: 10px;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .grupos {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: auto;
+        }
+
+        .grupo-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff08;
+            border: 0.5px solid #ffffff10;
+            border-radius: 8px;
+            padding: 0.65rem 0.85rem;
+        }
+
+        .grupo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .grupo-icon.fin  { background: #1a3a4a; color: #17a2b8; }
+        .grupo-icon.adm  { background: #3a1a2e; color: #e94560; }
+        .grupo-icon.prof { background: #1a3a1a; color: #28a745; }
+
+        .grupo-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        .grupo-desc {
+            font-size: 10px;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        .login-footer {
+            font-size: 11px;
+            color: #444;
+            margin-top: 2rem;
+        }
+
+        /* ── PAINEL DIREITO ── */
+        .login-right {
+            background: #fff;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2.5rem 2rem;
+        }
+
+        .login-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-sub {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 2rem;
+        }
+
+        .error-msg {
+            background: #ffebee;
+            border-left: 3px solid #e94560;
+            border-radius: 0 8px 8px 0;
+            padding: 0.65rem 0.85rem;
+            font-size: 13px;
+            color: #c62828;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field {
+            margin-bottom: 1rem;
+        }
+
+        .field label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a2e;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 9px 12px;
+            border: 0.5px solid #ccc;
+            border-radius: 8px;
+            font-size: 13.5px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .field input:focus {
+            border-color: #e94560;
+        }
+
+        .field .input-wrap {
+            position: relative;
+        }
+
+        .field .input-wrap i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            font-size: 17px;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s;
+        }
+
+        .btn-login:hover { background: #c73652; }
+
+        .login-hint {
+            font-size: 12px;
+            color: #bbb;
+            text-align: center;
+            margin-top: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <!-- ESQUERDO -->
+    <div class="login-left">
+        <div class="login-logo">Fit<span>Life</span></div>
+        <div class="login-tagline">Sistema de Gestão de Academia</div>
+
+        <div class="grupo-label">Grupos de acesso</div>
+        <div class="grupos">
+            <div class="grupo-item">
+                <div class="grupo-icon fin">
+                    <i class="ti ti-cash" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="grupo-name">Financeiro</div>
+                    <div class="grupo-desc">Pagamentos e contratos</div>
+                </div>
+            </div>
+            <div class="grupo-item">
+                <div class="grupo-icon adm">
+                    <i class="ti ti-shield" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="grupo-name">Administração</div>
+                    <div class="grupo-desc">Acesso completo ao sistema</div>
+                </div>
+            </div>
+            <div class="grupo-item">
+                <div class="grupo-icon prof">
+                    <i class="ti ti-school" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="grupo-name">Professores</div>
+                    <div class="grupo-desc">Alunos e turmas</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-footer">© 2026 FitLife Academia</div>
+    </div>
+
+    <!-- DIREITO -->
+    <div class="login-right">
+        <div class="login-title">Bem-vindo de volta</div>
+        <div class="login-sub">Faça login para acessar o sistema</div>
+
+        {% if form.errors %}
+        <div class="error-msg">
+            <i class="ti ti-alert-circle" aria-hidden="true"></i>
+            Usuário ou senha inválidos. Tente novamente.
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="field">
+                <label for="id_username">Usuário</label>
+                <div class="input-wrap">
+                    {{ form.username }}
+                    <i class="ti ti-user" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="id_password">Senha</label>
+                <div class="input-wrap">
+                    {{ form.password }}
+                    <i class="ti ti-lock" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="ti ti-login" aria-hidden="true"></i>
+                Entrar
+            </button>
+        </form>
+
+        <div class="login-hint">
+            Acesso restrito a usuários autorizados
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+{% endblock %}
